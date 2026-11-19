@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E3A8A">
+<title>Довталаб — омодагӣ ба ИМД</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<style>
+:root{--b:#1E3A8A;--b2:#2F5BD3;--bl:#E8EEFF;--o:#F59E0B;--ol:#FFF3D6;--g:#0E9F6E;--gl:#DDF5EC;--r:#DC2626;--rl:#FDE7E7;--ink:#141B34;--mut:#5D6684;--line:#E2E6F0;--bg:#F3F5FB;--card:#fff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15.5px;line-height:1.45;padding-bottom:84px}
+button,input,select,textarea{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:10;background:var(--b);color:#fff;padding:12px 16px calc(12px);display:flex;align-items:center;gap:10px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+header .lg{width:36px;height:36px;border-radius:10px;background:#ffffff1f;display:grid;place-items:center;font-size:20px}
+header h1{font-size:19px;margin:0;line-height:1.1}header h1 span{display:block;font-size:12px;font-weight:500;color:#BFD0FF}
+.aistat{margin-left:auto;font-size:12.5px;background:#ffffff1f;padding:6px 10px;border-radius:99px;cursor:pointer;white-space:nowrap}
+#app{max-width:720px;margin:0 auto;padding:14px}
+nav#nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
+nav#nav button{all:unset;flex:1;text-align:center;padding:8px 2px 9px;font-size:11.5px;color:var(--mut);cursor:pointer}
+nav#nav button .i{display:block;font-size:21px;line-height:1.2}nav#nav button.on{color:var(--b);font-weight:700}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(20,27,52,.06);border:1px solid var(--line)}
+h2{font-size:18px;margin:0 0 8px}h3{font-size:16px;margin:0 0 6px}
+.muted{color:var(--mut)}.small{font-size:13px}
+.btn{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--b);color:#fff;border-radius:12px;padding:13px 16px;font-weight:700;cursor:pointer;text-align:center;width:100%}
+.btn.o{background:var(--o);color:#3D2A00}.btn.ghost{background:var(--bl);color:var(--b)}.btn.sm{width:auto;padding:8px 12px;font-size:13.5px;border-radius:10px}.btn.g{background:var(--g)}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:10px;align-items:center}.wrap{flex-wrap:wrap}.grow{flex:1}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero{background:linear-gradient(135deg,var(--b),var(--b2));color:#fff;border-radius:20px;padding:18px;margin-bottom:12px}
+.hero .big{font-size:42px;font-weight:800;line-height:1}.hero .muted{color:#C9D6FF}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;background:var(--bl);color:var(--b)}
+.pill.o{background:var(--ol);color:#8A5A00}.pill.g{background:var(--gl);color:#07734F}.pill.r{background:var(--rl);color:var(--r)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px}
+.chip{all:unset;cursor:pointer;white-space:nowrap;padding:8px 12px;border-radius:99px;background:#fff;border:1px solid var(--line);font-size:13.5px;font-weight:600}
+.chip.on{background:var(--b);color:#fff;border-color:var(--b)}
+.tile{all:unset;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.tile .i{font-size:26px}.tile b{font-size:15px}
+.bar{height:8px;border-radius:9px;background:#E6EAF5;overflow:hidden}.bar i{display:block;height:100%;background:var(--b2);border-radius:9px}
+.opt{all:unset;box-sizing:border-box;display:flex;gap:10px;align-items:center;width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;margin-bottom:8px;cursor:pointer}
+.opt .L{width:28px;height:28px;border-radius:50%;background:var(--bl);color:var(--b);display:grid;place-items:center;font-weight:800;flex:none;font-size:13px}
+.opt.ok{border-color:var(--g);background:var(--gl)}.opt.ok .L{background:var(--g);color:#fff}
+.opt.no{border-color:var(--r);background:var(--rl)}.opt.no .L{background:var(--r);color:#fff}
+.qtext{font-size:17px;font-weight:600;margin:6px 0 14px}
+.ai{background:#F6F3FF;border:1px solid #E1D8FF;border-radius:14px;padding:12px 14px;white-space:pre-wrap;font-size:14.5px}
+input[type=text],input[type=number],select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--b2)}
+label.f{display:block;font-size:13px;font-weight:700;color:var(--mut);margin:10px 0 5px}
+input[type=range]{width:100%;accent-color:var(--b2)}
+.stars{color:#F5A623;letter-spacing:1px;white-space:nowrap}.stars .e{color:#D5DAE8}
+.star-in{display:flex;gap:4px}.star-in button{all:unset;cursor:pointer;font-size:26px;color:#D5DAE8}.star-in button.on{color:#F5A623}
+.rev{border-top:1px solid var(--line);padding:10px 0}
+.sheet-bg{position:fixed;inset:0;background:rgba(10,15,35,.5);z-index:30;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:720px;max-height:88vh;overflow:auto}
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;z-index:40;font-size:14px;max-width:90vw}
+.warn{background:var(--ol);border:1px solid #F3D9A0;border-radius:12px;padding:10px 12px;font-size:13.5px}
+.chat .m{padding:10px 12px;border-radius:14px;margin:6px 0;max-width:88%;white-space:pre-wrap}
+.chat .u{background:var(--b);color:#fff;margin-left:auto;border-bottom-right-radius:4px}.chat .a{background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+.timer{font-variant-numeric:tabular-nums;font-weight:800}
+.rk{display:flex;gap:12px;align-items:flex-start}.rk .n{width:30px;height:30px;border-radius:9px;background:var(--bl);color:var(--b);display:grid;place-items:center;font-weight:800;flex:none}
+a{color:var(--b2)}
+</style>
+</head>
+<body>
+<header><div class="lg">🎓</div><h1>Довталаб<span>омодагӣ ба имтиҳонҳои ММТ</span></h1><span class="aistat" id="aist" onclick="settings()">⚪ ЗС ⚙️</span></header>
+<div id="app"></div>
+<nav id="nav"></nav>
+<script src="data.js"></script>
+<script>
+'use strict';
+const LET = ['А', 'Б', 'В', 'Г'];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const DEF_SRV = 'https://darzi-ai.akramzodasorbon0.workers.dev';
+let S = { cl: 1, target: null, hist: [], stats: {}, srv: DEF_SRV, dev: '', myPass: {}, prefs: { city: '', free: false }, chat: [], calc: [70, 70, 70, 70], wsel: 0, aiQ: {}, localRev: [] };
+try { Object.assign(S, JSON.parse(localStorage.getItem('dovtalab') || '{}')); } catch (e) { }
+if (!S.dev) S.dev = 'd' + Math.random().toString(36).slice(2, 12);
+function save() { try { localStorage.setItem('dovtalab', JSON.stringify(S)); } catch (e) { } }
+function toast(m) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); }
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const fmt = n => Math.round(n * 10) / 10;
+const uniOf = p => UNIS[p.u];
+const planById = id => PLAN.find(p => p.id === id);
+
+/* ---------- Баллҳо ---------- */
+const PERMS = [[175, 150, 100], [175, 100, 150], [150, 175, 100], [150, 100, 175], [100, 175, 150], [100, 150, 175]];
+function weightsFor(p) { if (p && p.w) return p.w; return null; }
+function curWeights() { const t = S.target && planById(S.target); const w = weightsFor(t); if (w && t.cl === S.cl) return { w, src: 'known', p: t }; return { w: [75, ...PERMS[S.wsel || 0]], src: 'chosen' }; }
+function scaled(pcts, w) { return pcts.reduce((s, p, i) => s + (p / 100) * w[i], 0); }
+function subjPct(k) { const st = S.stats[k]; return st && st.n ? st.ok / st.n * 100 : null; }
+function predicted() {
+  const subs = CLUSTERS[S.cl].s, lastMock = S.hist.filter(h => h.cl === S.cl).slice(-1)[0];
+  const pcts = subs.map((k, i) => lastMock ? lastMock.pct[i] : subjPct(k));
+  if (pcts.some(x => x === null)) return null;
+  const { w } = curWeights(); return { pcts, total: scaled(pcts, w), w, from: lastMock ? 'mock' : 'practice' };
+}
+function passOf(p) { const mine = S.myPass[p.id]; if (mine) return { v: +mine, y: 'шумо', mine: true }; return p.pass; }
+
+/* ---------- Сервер (ЗС ва шарҳҳо) ---------- */
+let AI = null, AIKIND = null, REV = { sum: {}, ok: false };
+function remoteAI(url) {
+  async function call(input, mode) {
+    const body = { mode, images: [] }; if (typeof input === 'string') body.prompt = input; else body.messages = input;
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 90000); let r;
+    try { r = await fetch(url.replace(/\/$/, '') + '/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ctl.signal }); }
+    catch (e) { throw { code: 'network', message: 'Пайваст нашуд' }; } finally { clearTimeout(t); }
+    const j = await r.json().catch(() => ({})); if (!r.ok || j.error) throw { code: 'server', message: j.error || ('HTTP ' + r.status) };
+    return { text: j.text || '' };
+  }
+  const f = input => call(input, 'text');
+  f.json = async input => { const o = await call(input, 'json'); const t = o.text; return JSON.parse(t.slice(t.indexOf('{'), t.lastIndexOf('}') + 1)); };
+  return f;
+}
+function useRemote() { if (AIKIND !== 'claude') { AI = S.srv ? remoteAI(S.srv) : null; AIKIND = S.srv ? 'server' : null; } }
+async function srv(path, opt) { if (!S.srv) throw new Error('no server'); const r = await fetch(S.srv.replace(/\/$/, '') + path, opt); const j = await r.json().catch(() => ({})); if (!r.ok || j.error) throw new Error(j.error || 'HTTP ' + r.status); return j; }
+async function loadRevSum() { try { const j = await srv('/reviews/summary'); REV.sum = j.sum || {}; REV.ok = true; } catch (e) { REV.ok = false; localSum(); } }
+function localSum() { const m = {}; S.localRev.forEach(r => { const k = r.key; m[k] = m[k] || { n: 0, t: 0 }; m[k].n++; m[k].t += r.avg; }); REV.sum = Object.fromEntries(Object.entries(m).map(([k, v]) => [k, { n: v.n, avg: v.t / v.n }])); }
+const revKey = p => p.u + '|' + p.code;
+function ratingOf(p) { return REV.sum[revKey(p)] || null; }
+function uniRating(u) { let n = 0, t = 0; for (const [k, v] of Object.entries(REV.sum)) if (k.startsWith(u + '|')) { n += v.n; t += v.avg * v.n; } return n ? { n, avg: t / n } : null; }
+function stars(v, n) { if (!v) return '<span class="muted small">ҳоло баҳо нест</span>'; const f = Math.round(v); return `<span class="stars">${'★'.repeat(f)}<span class="e">${'★'.repeat(5 - f)}</span></span> <b>${v.toFixed(1)}</b>${n ? ` <span class="muted small">(${n})</span>` : ''}`; }
+
+/* ---------- Навигатсия ---------- */
+let tab = 'home', view = null, cur = {};
+const TABS = [['home', '🏠', 'Асосӣ'], ['test', '📝', 'Машқ'], ['calc', '🧮', 'Ҳисоб'], ['unis', '🏛️', 'Донишгоҳҳо'], ['adv', '🧭', 'Маслиҳат']];
+function go(t, v = null, c = {}) { stopTimer(); tab = t; view = v; cur = c; render(); scrollTo(0, 0); }
+function render() {
+  document.getElementById('aist').textContent = (AI ? '🟢 ЗС' : '⚪ ЗС') + ' ⚙️';
+  const V = view ? { quiz: vQuiz, mock: vMock, mockres: vMockRes, uni: vUni, info: vInfo, rating: vRating, chat: vChat }[view] : { home: vHome, test: vTest, calc: vCalc, unis: vUnis, adv: vAdv }[tab];
+  document.getElementById('app').innerHTML = V();
+  document.getElementById('nav').innerHTML = TABS.map(([k, i, l]) => `<button class="${tab === k ? 'on' : ''}" onclick="go('${k}')"><span class="i">${i}</span>${l}</button>`).join('');
+}
+function clusterChips(fn = 'setCl') { return `<div class="chips">${Object.entries(CLUSTERS).map(([k, c]) => `<button class="chip ${S.cl == k ? 'on' : ''}" onclick="${fn}(${k})">${k}. ${c.n}</button>`).join('')}</div>`; }
+function setCl(k) { S.cl = +k; save(); render(); }
+
+/* ---------- Асосӣ ---------- */
+function vHome() {
+  const c = CLUSTERS[S.cl], pr = predicted(), t = S.target && planById(S.target), pass = t && passOf(t);
+  const done = Object.values(S.stats).reduce((s, x) => s + x.n, 0);
+  return `${clusterChips()}
+  <div class="hero"><div class="small muted">Гурӯҳи ихтисосҳои ${S.cl}: ${c.n}</div>
+   <div class="row" style="margin-top:8px;align-items:flex-end"><div class="grow"><div class="small muted">Холи пешгӯишудаи ман</div><div class="big">${pr ? Math.round(pr.total) : '—'}<span style="font-size:18px;font-weight:600"> / 500</span></div></div>
+   ${t ? `<div style="text-align:right"><div class="small muted">Мақсад</div><b>${esc(t.n)}</b><div class="small muted">${esc(uniOf(t).s)}</div></div>` : ''}</div>
+   ${pr && pass ? `<div style="margin-top:10px">${gapLine(pr.total, pass.v)}</div>` : ''}
+   ${!pr ? `<div class="small" style="margin-top:8px;color:#DCE5FF">Барои пешгӯӣ аз ҳар фан машқ кунед ё санҷиши пурраро супоред.</div>` : ''}</div>
+  <div class="g2" style="margin-bottom:12px">
+   <button class="tile" onclick="go('test')"><span class="i">📝</span><b>Машқ аз рӯи фан</b><span class="muted small">${done} савол ҳал шуд</span></button>
+   <button class="tile" onclick="startMock()"><span class="i">⏱️</span><b>Санҷиши пурра</b><span class="muted small">4 фан, мисли ИМД</span></button>
+   <button class="tile" onclick="go('calc')"><span class="i">🧮</span><b>Ҳисобкунаки балл</b><span class="muted small">то 500 балл</span></button>
+   <button class="tile" onclick="go('adv')"><span class="i">🧭</span><b>Кадом ихтисос?</b><span class="muted small">тавсия аз рӯи балл ва баҳо</span></button></div>
+  <div class="card"><h3>Фанҳои гурӯҳи ${S.cl}</h3>${c.s.map((k, i) => { const p = subjPct(k); return `<div class="row" style="margin:9px 0"><span style="width:26px">${SUBJ[k].i}</span><span class="grow">${SUBJ[k].n}</span><div class="bar" style="width:90px"><i style="width:${p ?? 0}%"></i></div><b style="width:40px;text-align:right">${p === null ? '—' : Math.round(p) + '%'}</b></div>`; }).join('')}</div>
+  <div class="card row" onclick="go('home','info')" style="cursor:pointer"><span style="font-size:26px">ℹ️</span><div class="grow"><b>Имтиҳон чӣ гуна аст?</b><div class="muted small">Кластерҳо, фанҳо, вақт, баллҳо, 12 интихоб</div></div><span>›</span></div>
+  <div class="card row" onclick="go('unis','rating')" style="cursor:pointer"><span style="font-size:26px">⭐</span><div class="grow"><b>Рейтинги донишгоҳҳо</b><div class="muted small">аз рӯи баҳоҳои донишҷӯён</div></div><span>›</span></div>`;
+}
+function gapLine(my, pass) { const d = my - pass; return d >= 0 ? `<span class="pill g">✓ ${Math.round(d)} балл болотар аз холи гузариш (${pass})</span>` : `<span class="pill o">Боз ${Math.ceil(-d)} балл лозим (гузариш: ${pass})</span>`; }
+
+/* ---------- Маълумот дар бораи имтиҳон ---------- */
+function vInfo() {
+  return `<button class="btn ghost sm" onclick="go('home')">← Бозгашт</button><h2 style="margin-top:12px">Имтиҳонҳои марказонидаи дохилшавӣ (ИМД)</h2>
+  <div class="card"><b>Қисми А</b> — баъди синфи 11: 4 субтест (фан). Ҳадди аксар — <b>500 балл</b>. Забони тоҷикӣ ҳамеша то <b>75 балл</b>; се фанни дигар вобаста ба ихтисос то 100, 150 ё 175 балл.
+   <p class="small muted" style="margin-bottom:0">Ҷавобҳои дуруст аввал «хол» мешаванд, баъд бо ҷадвали ММТ ба «балл» табдил меёбанд. Довталаб дар доираи як кластер то <b>12 интихоб</b> (ихтисос + муассиса + шакл + навъи таҳсил) мекунад.</p></div>
+  ${Object.entries(CLUSTERS).map(([k, c]) => `<div class="card"><div class="row"><span class="pill" style="background:${c.c};color:#fff">${k}</span><b class="grow">${c.n}</b><span class="muted small">${c.t} дақ.</span></div><div class="row wrap" style="margin-top:8px;gap:6px">${c.s.map(s => `<span class="pill">${SUBJ[s].i} ${s === 'lit' ? 'Адабиёти тоҷик / забони русӣ' : s === 'lang' ? 'Забони хориҷӣ' : SUBJ[s].n}</span>`).join('')}</div></div>`).join('')}
+  <div class="warn">Маълумот аз сомонаи Маркази миллии тестӣ (ntc.tj) гирифта шудааст. Қоидаҳо ҳар сол метавонанд тағйир ёбанд — ҳамеша дар ntc.tj санҷед. Тестҳои намунавии расмӣ ва калидҳояшон: <a href="https://ntc.tj/ru/obyavleniya2.html" target="_blank">ntc.tj → Типовые тестовые задания</a></div>`;
+}
+
+/* ---------- Машқ ---------- */
+function vTest() {
+  const mine = CLUSTERS[S.cl].s, other = Object.keys(SUBJ).filter(k => !mine.includes(k));
+  const tile = k => { const p = subjPct(k), n = (Q[k] || []).length + (S.aiQ[k] || []).length; return `<button class="tile" onclick="startQuiz('${k}')"><span class="i">${SUBJ[k].i}</span><b>${SUBJ[k].n}</b><span class="muted small">${n} савол${p !== null ? ' · ' + Math.round(p) + '%' : ''}</span></button>`; };
+  return `<h2>Машқ</h2>${clusterChips()}<div class="g2">${mine.map(tile).join('')}</div>
+   <button class="btn o" style="margin:12px 0" onclick="startMock()">⏱️ Санҷиши пурраи гурӯҳи ${S.cl} (${mine.length} фан)</button>
+   <h3 style="margin-top:16px">Фанҳои дигар</h3><div class="g2">${other.map(tile).join('')}</div>
+   <div class="warn" style="margin-top:12px">Саволҳо муаллифӣ ҳастанд ва барои машқ навишта шудаанд, на аз имтиҳони расмӣ. Тестҳои намунавии ММТ: <a href="https://ntc.tj/ru/obyavleniya2.html" target="_blank">ntc.tj</a></div>`;
+}
+function bank(k) { return [...(Q[k] || []), ...(S.aiQ[k] || [])]; }
+function prepQ([t, o, a]) { const idx = shuffle([0, 1, 2, 3]); return { t, o: idx.map(i => o[i]), a: idx.indexOf(a) }; }
+function startQuiz(k) { const qs = shuffle(bank(k)).map(prepQ); go('test', 'quiz', { k, qs, i: 0, pick: null, ok: 0, expl: null }); }
+function vQuiz() {
+  const c = cur, q = c.qs[c.i];
+  if (!q) return `<div class="card" style="text-align:center"><div style="font-size:48px">🎉</div><h2>Тамом!</h2><p>${c.ok} аз ${c.qs.length} дуруст (${Math.round(c.ok / c.qs.length * 100)}%)</p>
+    <button class="btn" onclick="startQuiz('${c.k}')">Боз як бор</button><button class="btn ghost" style="margin-top:8px" onclick="genQ('${c.k}')">🤖 5 саволи нав бо ЗС</button><button class="btn ghost" style="margin-top:8px" onclick="go('test')">← Ба фанҳо</button></div>`;
+  return `<div class="row"><button class="btn ghost sm" onclick="go('test')">✕</button><b class="grow">${SUBJ[c.k].i} ${SUBJ[c.k].n}</b><span class="muted">${c.i + 1}/${c.qs.length}</span></div>
+   <div class="bar" style="margin:10px 0"><i style="width:${c.i / c.qs.length * 100}%"></i></div>
+   <div class="qtext">${esc(q.t)}</div>
+   ${q.o.map((o, j) => `<button class="opt ${c.pick === null ? '' : j === q.a ? 'ok' : j === c.pick ? 'no' : ''}" onclick="pick(${j})" ${c.pick !== null ? 'disabled' : ''}><span class="L">${LET[j]}</span>${esc(o)}</button>`).join('')}
+   ${c.pick !== null ? `<div style="margin:10px 0" class="pill ${c.pick === q.a ? 'g' : 'r'}">${c.pick === q.a ? '✓ Дуруст!' : '✗ Ҷавоби дуруст: ' + LET[q.a]}</div>
+    ${c.expl ? `<div class="ai">${esc(c.expl)}</div>` : `<button class="btn ghost" onclick="explain()">🤖 Шарҳи ЗС: чаро ин ҷавоб дуруст аст?</button>`}
+    <button class="btn" style="margin-top:10px" onclick="nextQ()">Саволи навбатӣ →</button>` : ''}`;
+}
+function pick(j) { const c = cur, q = c.qs[c.i]; c.pick = j; const st = S.stats[c.k] = S.stats[c.k] || { ok: 0, n: 0 }; st.n++; if (j === q.a) { st.ok++; c.ok++; } save(); render(); }
+function nextQ() { cur.i++; cur.pick = null; cur.expl = null; render(); scrollTo(0, 0); }
+async function explain() {
+  const c = cur, q = c.qs[c.i]; if (!AI) return settings();
+  c.expl = '⏳ ЗС фикр мекунад…'; render();
+  const p = `Ту устоди ботаҷрибаи омодасозӣ ба имтиҳонҳои Маркази миллии тестии Тоҷикистон ҳастӣ. Ба забони тоҷикӣ (алифбои кириллӣ), содда ва кӯтоҳ (то 8 сатр) шарҳ деҳ.
+Фан: ${SUBJ[c.k].n}
+Савол: ${q.t}
+Вариантҳо: ${q.o.map((o, j) => LET[j] + ') ' + o).join('; ')}
+Ҷавоби дуруст: ${LET[q.a]}) ${q.o[q.a]}
+Ҷавоби хонанда: ${LET[c.pick]}) ${q.o[c.pick]}
+Қадам ба қадам фаҳмон, ки чаро ҷавоби дуруст ҳамин аст${c.pick !== q.a ? ' ва хатои хонанда дар куҷост' : ''}. Дар охир як маслиҳати кӯтоҳ барои дар хотир нигоҳ доштан деҳ.`;
+  try { const o = await AI(p); c.expl = (o.text || '').trim(); } catch (e) { c.expl = '❌ ЗС ҷавоб надод: ' + (e.message || e.code || 'хато'); }
+  if (view === 'quiz' && cur === c) render();
+}
+async function genQ(k) {
+  if (!AI) return settings(); toast('🤖 Саволҳо сохта мешаванд…');
+  const p = `5 саволи нави тестӣ барои омодагӣ ба имтиҳони дохилшавӣ (синфи 11, Тоҷикистон) аз фанни «${SUBJ[k].n}» соз. Забон: ${k === 'lang' ? 'англисӣ' : 'тоҷикӣ (кириллӣ)'}. Ҳар савол 4 вариант, танҳо як ҷавоби дуруст, далелҳо бояд аниқ ва санҷидашуда бошанд.
+Танҳо JSON: {"q":[{"t":"савол","o":["...","...","...","..."],"a":0}]} — a индекси ҷавоби дуруст (0–3).`;
+  try { const j = await AI.json(p); const arr = (j.q || []).filter(x => x && x.t && Array.isArray(x.o) && x.o.length === 4 && x.a >= 0 && x.a < 4).map(x => [String(x.t), x.o.map(String), +x.a]);
+    if (!arr.length) throw 0; S.aiQ[k] = [...(S.aiQ[k] || []), ...arr].slice(-40); save(); toast(`✅ ${arr.length} савол илова шуд (сохтаи ЗС — метавонад хато дошта бошад)`); startQuiz(k); }
+  catch (e) { toast('❌ Сохта нашуд. Баъдтар кӯшиш кунед.'); }
+}
+
+/* ---------- Санҷиши пурра ---------- */
+let TM = null;
+function stopTimer() { if (TM) { clearInterval(TM); TM = null; } }
+function startMock() {
+  const subs = CLUSTERS[S.cl].s, secs = subs.length * 10 * 60;
+  const parts = subs.map(k => ({ k, qs: shuffle(bank(k)).slice(0, 8).map(prepQ) }));
+  go('test', 'mock', { parts, ans: parts.map(p => p.qs.map(() => null)), si: 0, end: Date.now() + secs * 1000 });
+  TM = setInterval(() => { const el = document.getElementById('tmr'); if (!el) return; const left = Math.max(0, cur.end - Date.now()); el.textContent = mmss(left); if (left <= 0) finishMock(); }, 1000);
+}
+const mmss = ms => { const s = Math.ceil(ms / 1000); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+function vMock() {
+  const c = cur, p = c.parts[c.si], answered = c.ans.flat().filter(x => x !== null).length, total = c.ans.flat().length;
+  return `<div class="row"><b class="grow">⏱️ Санҷиши пурра · гурӯҳи ${S.cl}</b><span class="pill o timer" id="tmr">${mmss(c.end - Date.now())}</span></div>
+   <div class="chips" style="margin-top:10px">${c.parts.map((x, i) => `<button class="chip ${i === c.si ? 'on' : ''}" onclick="cur.si=${i};render()">${SUBJ[x.k].i} ${c.ans[i].filter(a => a !== null).length}/${x.qs.length}</button>`).join('')}</div>
+   ${p.qs.map((q, qi) => `<div class="card"><div class="small muted">${SUBJ[p.k].n} · ${qi + 1}</div><div class="qtext" style="font-size:16px">${esc(q.t)}</div>
+     ${q.o.map((o, j) => `<button class="opt" style="${c.ans[c.si][qi] === j ? 'border-color:var(--b2);background:var(--bl)' : ''}" onclick="cur.ans[cur.si][${qi}]=${j};render()"><span class="L" style="${c.ans[c.si][qi] === j ? 'background:var(--b2);color:#fff' : ''}">${LET[j]}</span>${esc(o)}</button>`).join('')}</div>`).join('')}
+   <div class="row" style="gap:8px">${c.si > 0 ? `<button class="btn ghost" onclick="cur.si--;render();scrollTo(0,0)">← Пеш</button>` : ''}${c.si < c.parts.length - 1 ? `<button class="btn" onclick="cur.si++;render();scrollTo(0,0)">Фанни навбатӣ →</button>` : ''}</div>
+   <button class="btn o" style="margin-top:10px" onclick="if(confirm('Санҷишро тамом кунем? Ҷавоб дода шуд: ${answered} аз ${total}'))finishMock()">✓ Тамом кардан</button>`;
+}
+function finishMock() {
+  stopTimer(); const c = cur;
+  const pct = c.parts.map((p, i) => { const ok = p.qs.filter((q, qi) => c.ans[i][qi] === q.a).length; const st = S.stats[p.k] = S.stats[p.k] || { ok: 0, n: 0 }; st.n += p.qs.length; st.ok += ok; return ok / p.qs.length * 100; });
+  const { w } = curWeights(); const total = scaled(pct, w);
+  S.hist.push({ cl: S.cl, pct, total, w, t: Date.now() }); S.hist = S.hist.slice(-30); save();
+  go('test', 'mockres', { ...c, pct, total, w });
+}
+function vMockRes() {
+  const c = cur, t = S.target && planById(S.target), pass = t && passOf(t), subs = CLUSTERS[S.cl].s;
+  return `<div class="hero" style="text-align:center"><div class="small muted">Натиҷаи санҷиши пурра (тахминӣ)</div><div class="big" style="font-size:54px;margin:6px 0">${Math.round(c.total)}<span style="font-size:20px"> / 500</span></div>${pass ? gapLine(c.total, pass.v) : ''}</div>
+   <div class="card">${subs.map((k, i) => `<div class="row" style="margin:9px 0"><span>${SUBJ[k].i}</span><span class="grow">${SUBJ[k].n}</span><span class="muted small">${Math.round(c.pct[i])}%</span><b style="width:76px;text-align:right">${fmt(c.pct[i] / 100 * c.w[i])} / ${c.w[i]}</b></div>`).join('')}</div>
+   <div class="warn">Балл тахминӣ аст: ММТ ҷавобҳои дурустро бо ҷадвали махсус ба балл табдил медиҳад. Ин ҷо ҳисоби мутаносиб истифода шудааст.</div>
+   <h3 style="margin-top:14px">Хатоҳо</h3>${c.parts.map((p, i) => p.qs.map((q, qi) => c.ans[i][qi] === q.a ? '' : `<div class="card"><div class="small muted">${SUBJ[p.k].n}</div><b>${esc(q.t)}</b><div class="small" style="margin-top:6px">Ҷавоби шумо: ${c.ans[i][qi] === null ? '—' : esc(q.o[c.ans[i][qi]])}<br>✓ Дуруст: <b>${esc(q.o[q.a])}</b></div></div>`).join('')).join('') || '<div class="card">🎉 Хато нест!</div>'}
+   <button class="btn" onclick="go('adv')">🧭 Кадом ихтисосҳо ба ман мувофиқанд?</button>`;
+}
+
+/* ---------- Ҳисобкунак ---------- */
+function vCalc() {
+  const subs = CLUSTERS[S.cl].s, cw = curWeights(), w = cw.w, total = scaled(S.calc, w), t = S.target && planById(S.target), pass = t && passOf(t);
+  let need = '';
+  if (pass) { const rest = pass.v - total; const req = Math.min(100, pass.v / 500 * 100); need = `<div class="card"><h3>🎯 Барои «${esc(t.n)}»</h3>${gapLine(total, pass.v)}<p class="small muted">Барои гузариш (${pass.v} балл${pass.y ? ', ' + pass.y : ''}) ба ҳисоби миёна тақрибан <b>${Math.round(req)}%</b> ҷавоби дуруст аз ҳар фан лозим. ${rest > 0 ? `Беҳтар аст ба фанни «${SUBJ[subs[1 + w.slice(1).indexOf(Math.max(...w.slice(1)))]].n}» диққат диҳед — он бештар балл дорад.` : 'Ҳамин сатҳро нигоҳ доред!'}</p></div>`; }
+  return `<h2>Ҳисобкунаки балл</h2>${clusterChips()}
+   <div class="card"><div class="small muted">${cw.src === 'known' ? `Вазнҳои ихтисоси «${esc(cw.p.n)}» (аз ММТ)` : 'Вазни фанҳо (вобаста ба ихтисос — дар нақшаи қабули ntc.tj санҷед):'}</div>
+    ${cw.src === 'known' ? '' : `<select style="margin-top:8px" onchange="S.wsel=+this.value;save();render()">${PERMS.map((p, i) => `<option value="${i}" ${S.wsel == i ? 'selected' : ''}>${subs.slice(1).map((k, j) => SUBJ[k].n.split(' ')[0] + ' ' + p[j]).join(' · ')}</option>`).join('')}</select>`}
+    ${subs.map((k, i) => `<label class="f">${SUBJ[k].i} ${SUBJ[k].n}: <b style="color:var(--ink)">${S.calc[i]}%</b> → ${fmt(S.calc[i] / 100 * w[i])} / ${w[i]}</label><input type="range" min="0" max="100" value="${S.calc[i]}" oninput="S.calc[${i}]=+this.value;save();render()">`).join('')}
+    <div class="row" style="margin-top:14px"><b class="grow">Ҳамагӣ (тахминӣ)</b><b style="font-size:26px;color:var(--b)">${Math.round(total)}</b><span class="muted">/ 500</span></div></div>
+   ${need || `<div class="card small muted">Дар «Донишгоҳҳо» ихтисосро ҳамчун «🎯 Мақсади ман» интихоб кунед ва холи гузаришро ворид кунед — барнома мегӯяд, ки чанд балл лозим аст.</div>`}
+   ${predicted() ? `<button class="btn ghost" onclick="S.calc=predicted().pcts.map(Math.round);save();render()">↺ Аз натиҷаҳои машқи ман пур кардан</button>` : ''}`;
+}
+
+/* ---------- Донишгоҳҳо ---------- */
+let UF = { city: '', free: false, q: '' };
+function vUnis() {
+  const cities = [...new Set(Object.values(UNIS).map(u => u.c))];
+  const list = PLAN.filter(p => p.cl === S.cl && (!UF.city || uniOf(p).c === UF.city) && (!UF.free || p.free > 0) && (!UF.q || (p.n + uniOf(p).n).toLowerCase().includes(UF.q.toLowerCase())));
+  return `<div class="row"><h2 class="grow" style="margin:0">Нақшаи қабул</h2><button class="btn ghost sm" onclick="go('unis','rating')">⭐ Рейтинг</button></div><p class="small muted" style="margin:4px 0 10px">2025–2026 · қисми А · рӯзона · манбаъ: ntc.tj</p>
+   ${clusterChips()}
+   <div class="row" style="margin-bottom:10px"><select onchange="UF.city=this.value;render()"><option value="">Ҳама шаҳрҳо</option>${cities.map(c => `<option ${UF.city === c ? 'selected' : ''}>${c}</option>`).join('')}</select>
+    <button class="chip ${UF.free ? 'on' : ''}" onclick="UF.free=!UF.free;render()">Ройгон</button></div>
+   ${list.map(planCard).join('') || '<div class="card muted">Ин ҷо ҳоло ихтисос нест.</div>'}
+   <div class="warn">Дар барнома қисме аз нақшаи қабул ҳаст. Рӯйхати пурра ва нақшаи соли нав: <a href="https://ntc.tj/ru/abiturientu/plan-priyoma-2022-2023.html?view=article&id=944" target="_blank">ntc.tj → План приёма</a></div>`;
+}
+function planCard(p) {
+  const u = uniOf(p), r = ratingOf(p), pass = passOf(p);
+  return `<div class="card" onclick="openUni('${p.id}')" style="cursor:pointer"><div class="row" style="align-items:flex-start"><div class="grow"><b>${esc(p.n)}</b><div class="small muted">${esc(u.s)} · ${esc(u.c)} · ${esc(p.lang)}</div></div>${S.target === p.id ? '<span class="pill o">🎯</span>' : ''}</div>
+   <div class="row wrap" style="margin-top:8px;gap:6px">${p.free ? `<span class="pill g">ройгон: ${p.free}</span>` : ''}${p.paid ? `<span class="pill">пулакӣ: ${p.paid} · ${p.fee} с.</span>` : ''}${pass ? `<span class="pill o">гузариш: ${pass.v} (${pass.y})</span>` : ''}</div>
+   <div style="margin-top:8px">${stars(r && r.avg, r && r.n)}</div></div>`;
+}
+function openUni(id) { go('unis', 'uni', { p: planById(id), revs: null, form: { s: [0, 0, 0, 0], t: '', n: '' } }); loadRevs(); }
+async function loadRevs() { const c = cur; try { const j = await srv('/reviews?key=' + encodeURIComponent(revKey(c.p))); c.revs = j.reviews || []; } catch (e) { c.revs = S.localRev.filter(r => r.key === revKey(c.p)); c.local = true; } if (view === 'uni' && cur === c) render(); }
+const CRIT = ['Сифати таълим', 'Омӯзгорон', 'Шароит ва бино', 'Кор баъди хатм'];
+function vUni() {
+  const { p } = cur, u = uniOf(p), r = ratingOf(p), pass = passOf(p), pr = predicted();
+  const my = pr ? scaled(pr.pcts, p.w || pr.w) : null;
+  return `<button class="btn ghost sm" onclick="go('unis')">← Бозгашт</button>
+   <div class="card" style="margin-top:12px"><span class="pill" style="background:${CLUSTERS[p.cl].c};color:#fff">кластери ${p.cl}</span><h2 style="margin:8px 0 2px">${esc(p.n)}</h2><div class="muted small">Код: ${p.code}</div>
+    <p style="margin:10px 0 4px"><b>${esc(u.n)}</b></p><div class="muted small">📍 ${esc(u.c)} · 🗣 ${esc(p.lang)}</div>
+    <div class="g2" style="margin-top:12px"><div class="card" style="margin:0;text-align:center"><div class="small muted">Ҷойҳои ройгон</div><b style="font-size:24px">${p.free || '—'}</b></div><div class="card" style="margin:0;text-align:center"><div class="small muted">Пулакӣ</div><b style="font-size:24px">${p.paid || '—'}</b>${p.fee ? `<div class="small muted">${p.fee} сомонӣ/сол</div>` : ''}</div></div>
+    ${p.w ? `<div class="small" style="margin-top:10px">Вазни фанҳо: ${CLUSTERS[p.cl].s.map((k, i) => SUBJ[k].n.split(' ')[0] + ' ' + p.w[i]).join(' · ')}</div>` : ''}</div>
+   <div class="card"><h3>🎯 Холи гузариш</h3>${pass ? `<b style="font-size:22px">${pass.v}</b> <span class="muted small">(${pass.mine ? 'шумо ворид кардед' : 'соли ' + pass.y}${pass.mine ? '' : ', мисол аз матбуот'})</span>` : '<div class="muted small">Номаълум. Холи гузариши соли гузаштаро аз натиҷаҳои тақсимоти ntc.tj ворид кунед:</div>'}
+    <div class="row" style="margin-top:8px"><input type="number" id="mp" placeholder="масалан 380" value="${esc(S.myPass[p.id] || '')}"><button class="btn sm" onclick="S.myPass['${p.id}']=document.getElementById('mp').value;save();render()">Нигоҳ доштан</button></div>
+    ${my !== null && pass ? `<div style="margin-top:10px">Холи пешгӯишудаи шумо: <b>${Math.round(my)}</b> ${gapLine(my, pass.v)}</div>` : ''}
+    <button class="btn ${S.target === p.id ? 'ghost' : 'o'}" style="margin-top:10px" onclick="S.target=${S.target === p.id ? 'null' : `'${p.id}'`};save();render()">${S.target === p.id ? '✓ Мақсади ман аст' : '🎯 Мақсади ман кардан'}</button></div>
+   <div class="card"><div class="row"><h3 class="grow" style="margin:0">Шарҳҳои донишҷӯён</h3>${stars(r && r.avg, r && r.n)}</div>
+    ${cur.local ? `<div class="warn" style="margin-top:8px">Сервер пайваст нест — шарҳҳо танҳо дар ҳамин телефон нигоҳ дошта мешаванд.</div>` : ''}
+    ${cur.revs === null ? '<p class="muted">⏳ Боргирӣ…</p>' : cur.revs.length ? cur.revs.map(rv => `<div class="rev"><div class="row"><b class="grow">${esc(rv.name || 'Донишҷӯ')}</b>${stars(rv.avg)}</div><div class="small muted">${CRIT.map((c, i) => c + ': ' + rv.s[i]).join(' · ')}</div>${rv.text ? `<div style="margin-top:4px">${esc(rv.text)}</div>` : ''}<div class="small muted">${new Date(rv.t).toLocaleDateString('ru-RU')}</div></div>`).join('') : '<p class="muted small">Ҳоло шарҳ нест. Агар шумо дар ин ҷо таҳсил мекунед ё хатм кардед — аввалин шуда баҳо диҳед!</p>'}
+    <h3 style="margin-top:14px">Баҳои шумо</h3><p class="small muted" style="margin-top:0">Танҳо агар шумо дар ин ҷо таҳсил карда бошед ё мекунед.</p>
+    ${CRIT.map((c, i) => `<div class="row" style="margin:6px 0"><span class="grow small">${c}</span><div class="star-in">${[1, 2, 3, 4, 5].map(n => `<button class="${cur.form.s[i] >= n ? 'on' : ''}" onclick="cur.form.s[${i}]=${n};render()">★</button>`).join('')}</div></div>`).join('')}
+    <input type="text" placeholder="Ном ё тахаллус (ихтиёрӣ)" maxlength="40" style="margin-top:8px" value="${esc(cur.form.n)}" oninput="cur.form.n=this.value">
+    <textarea rows="3" maxlength="600" placeholder="Чӣ писанд омад, чӣ не? (ихтиёрӣ)" style="margin-top:8px" oninput="cur.form.t=this.value">${esc(cur.form.t)}</textarea>
+    <button class="btn" style="margin-top:8px" onclick="sendReview()">Фиристодан</button></div>`;
+}
+async function sendReview() {
+  const c = cur, f = c.form; if (f.s.some(x => !x)) return toast('Ҳар 4 меъёрро бо ситора баҳо диҳед');
+  const body = { key: revKey(c.p), s: f.s, text: f.t.trim(), name: f.n.trim(), device: S.dev };
+  try { await srv('/reviews', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); toast('✅ Ташаккур! Баҳо қабул шуд'); }
+  catch (e) { if (S.srv && e.message !== 'Failed to fetch' && !/no server|D1|DB/i.test(e.message)) return toast('❌ ' + e.message); S.localRev = S.localRev.filter(r => !(r.key === body.key && r.device === S.dev)); S.localRev.push({ ...body, avg: f.s.reduce((a, b) => a + b) / 4, t: Date.now(), id: Date.now() }); save(); toast('Дар телефон нигоҳ дошта шуд'); }
+  c.form = { s: [0, 0, 0, 0], t: '', n: '' }; c.revs = null; await loadRevSum(); loadRevs(); render();
+}
+function vRating() {
+  const us = Object.keys(UNIS).map(k => ({ k, ...UNIS[k], r: uniRating(k) })).sort((a, b) => (b.r ? b.r.avg : 0) - (a.r ? a.r.avg : 0) || (b.r ? b.r.n : 0) - (a.r ? a.r.n : 0));
+  const sp = PLAN.filter(p => p.cl === S.cl).map(p => ({ p, r: ratingOf(p) })).filter(x => x.r).sort((a, b) => b.r.avg - a.r.avg).slice(0, 10);
+  return `<button class="btn ghost sm" onclick="go('unis')">← Бозгашт</button><h2 style="margin-top:12px">⭐ Рейтинги донишгоҳҳо</h2><p class="small muted">Аз рӯи баҳоҳои донишҷӯён дар «Довталаб»${REV.ok ? '' : ' (сервер пайваст нест — танҳо баҳоҳои ҳамин телефон)'}.</p>
+   <div class="card">${us.map((u, i) => `<div class="rk" style="margin:10px 0"><span class="n">${i + 1}</span><div class="grow"><b>${esc(u.s)}</b><div class="small muted">${esc(u.c)}</div></div><div style="text-align:right">${stars(u.r && u.r.avg, u.r && u.r.n)}</div></div>`).join('')}</div>
+   <h3>Беҳтарин ихтисосҳо дар кластери ${S.cl}</h3>${clusterChips()}<div class="card">${sp.map((x, i) => `<div class="rk" style="margin:10px 0;cursor:pointer" onclick="openUni('${x.p.id}')"><span class="n">${i + 1}</span><div class="grow"><b>${esc(x.p.n)}</b><div class="small muted">${esc(uniOf(x.p).s)}</div></div>${stars(x.r.avg, x.r.n)}</div>`).join('') || '<p class="muted small">Ҳоло баҳо нест.</p>'}</div>`;
+}
+
+/* ---------- Маслиҳат ---------- */
+function recommend() {
+  const pr = predicted();
+  return PLAN.filter(p => p.cl === S.cl).map(p => {
+    const my = pr ? scaled(pr.pcts, p.w || pr.w) : null, pass = passOf(p), r = ratingOf(p);
+    let chance = null, cs = 0.5, why = [];
+    if (my !== null && pass) { const d = my - pass.v; chance = d >= 15 ? 'баланд' : d >= -15 ? 'миёна' : 'паст'; cs = d >= 15 ? 1 : d >= -15 ? 0.6 : 0.15; why.push(`холи шумо ~${Math.round(my)}, гузариш ${pass.v}`); }
+    const rs = r ? r.avg / 5 : 0.5; if (r) why.push(`баҳо ${r.avg.toFixed(1)}★ (${r.n})`);
+    const free = p.free > 0 ? 1 : 0; if (S.prefs.free) why.push(free ? `${p.free} ҷойи ройгон` : 'ҷойи ройгон нест');
+    const city = S.prefs.city ? (uniOf(p).c === S.prefs.city ? 1 : 0) : 0.5; if (S.prefs.city && city) why.push('дар шаҳри дилхоҳ');
+    const score = 40 * cs + 30 * rs + (S.prefs.free ? 15 * free : 7.5) + 15 * city;
+    return { p, score, chance, why, my };
+  }).sort((a, b) => b.score - a.score);
+}
+function vAdv() {
+  const pr = predicted(), list = recommend().slice(0, 8), cities = [...new Set(Object.values(UNIS).map(u => u.c))];
+  return `<h2>Кадом ихтисос ва донишгоҳ?</h2>${clusterChips()}
+   <div class="card"><div class="row wrap"><select style="flex:1" onchange="S.prefs.city=this.value;save();render()"><option value="">Шаҳр фарқ надорад</option>${cities.map(c => `<option ${S.prefs.city === c ? 'selected' : ''}>${c}</option>`).join('')}</select>
+    <button class="chip ${S.prefs.free ? 'on' : ''}" onclick="S.prefs.free=!S.prefs.free;save();render()">Танҳо ройгон муҳим</button></div>
+    <div class="small muted" style="margin-top:8px">${pr ? `Холи пешгӯишуда: <b>${Math.round(pr.total)}</b> (${pr.from === 'mock' ? 'аз санҷиши пурра' : 'аз машқҳо'})` : '⚠ Аввал машқ кунед ё санҷиши пурраро супоред, то имконияти дохилшавӣ ҳисоб шавад.'}</div></div>
+   ${list.map((x, i) => `<div class="card" onclick="openUni('${x.p.id}')" style="cursor:pointer"><div class="rk"><span class="n">${i + 1}</span><div class="grow"><b>${esc(x.p.n)}</b><div class="small muted">${esc(uniOf(x.p).s)} · ${esc(uniOf(x.p).c)}</div>
+     <div class="row wrap" style="gap:6px;margin-top:6px">${x.chance ? `<span class="pill ${x.chance === 'баланд' ? 'g' : x.chance === 'миёна' ? 'o' : 'r'}">имконият: ${x.chance}</span>` : '<span class="pill">холи гузариш номаълум</span>'}${ratingOf(x.p) ? `<span class="pill">${ratingOf(x.p).avg.toFixed(1)}★</span>` : ''}${x.p.free ? `<span class="pill g">ройгон ${x.p.free}</span>` : ''}</div>
+     ${x.why.length ? `<div class="small muted" style="margin-top:6px">${esc(x.why.join(' · '))}</div>` : ''}</div></div></div>`).join('')}
+   <div class="card"><h3>🤖 Маслиҳати ЗС</h3>${cur.adv ? `<div class="ai">${esc(cur.adv)}</div>` : '<p class="small muted" style="margin-top:0">ЗС натиҷаҳо, мақсад ва рӯйхати болоро таҳлил карда, маслиҳати шахсӣ медиҳад.</p>'}
+    <button class="btn" style="margin-top:8px" onclick="aiAdvice()">${cur.adv ? 'Аз нав пурсидан' : 'Маслиҳат гирифтан'}</button><button class="btn ghost" style="margin-top:8px" onclick="go('adv','chat')">💬 Саволи худро ба устоди ЗС диҳед</button></div>
+   <div class="warn">Тавсия ба холи тахминӣ, баҳоҳои донишҷӯён ва маълумоти нақшаи қабул асос ёфтааст. Қарори охирин — аз шумо ва волидайн.</div>`;
+}
+async function aiAdvice() {
+  if (!AI) return settings(); const pr = predicted(), list = recommend().slice(0, 8), c = cur; c.adv = '⏳ ЗС фикр мекунад…'; render();
+  const p = `Ту мушовири касбӣ ва мутахассиси имтиҳонҳои Маркази миллии тестии Тоҷикистон ҳастӣ. Ба забони тоҷикӣ (кириллӣ), кӯтоҳ (то 12 сатр), бо рақамгузорӣ маслиҳат деҳ.
+Довталаб: кластери ${S.cl} (${CLUSTERS[S.cl].n}). Фанҳо: ${CLUSTERS[S.cl].s.map((k, i) => SUBJ[k].n + (pr ? ' ' + Math.round(pr.pcts[i]) + '%' : '')).join(', ')}.
+Холи тахминӣ: ${pr ? Math.round(pr.total) + ' аз 500' : 'номаълум'}. Шаҳри дилхоҳ: ${S.prefs.city || 'фарқ надорад'}. Ҷойи ройгон муҳим: ${S.prefs.free ? 'ҳа' : 'не'}.
+Вариантҳо (аз рӯйхати барнома): ${list.map(x => `${x.p.n} — ${uniOf(x.p).s} (${uniOf(x.p).c}), ройгон ${x.p.free}, пулакӣ ${x.p.paid}${x.p.fee ? ' (' + x.p.fee + ' с.)' : ''}${passOf(x.p) ? ', гузариш ' + passOf(x.p).v : ''}${ratingOf(x.p) ? ', баҳо ' + ratingOf(x.p).avg.toFixed(1) : ''}`).join('; ')}.
+Танҳо аз ҳамин рӯйхат ихтисос пешниҳод кун, холи гузариш ё нарх наофар. Бигӯ: 1) 3 интихоби беҳтарин ва чаро, 2) кадом фанро бештар такрор кунад, 3) чӣ тавр 12 интихобро тартиб диҳад (аз орзу то бехатар).`;
+  try { const o = await AI(p); c.adv = (o.text || '').trim(); } catch (e) { c.adv = '❌ ЗС ҷавоб надод: ' + (e.message || 'хато'); }
+  if (tab === 'adv' && !view) render();
+}
+let chatBusy = false;
+function vChat() {
+  return `<div class="row"><button class="btn ghost sm" onclick="go('adv')">←</button><b class="grow">💬 Устоди ЗС</b>${S.chat.length ? `<button class="btn ghost sm" onclick="S.chat=[];save();render()">Тоза</button>` : ''}</div>
+   <div class="chat" style="margin:12px 0">${S.chat.length ? S.chat.map(m => `<div class="m ${m.r}">${esc(m.t)}</div>`).join('') : `<div class="card small muted">Масалан: «Барои тиб кадом фанҳоро бештар хонам?», «Муодилаи квадратиро фаҳмон», «12 интихобро чӣ тавр тартиб диҳам?»</div>`}${chatBusy ? '<div class="m a">⏳ …</div>' : ''}</div>
+   <div class="row" style="position:sticky;bottom:90px"><input type="text" id="ci" placeholder="Саволи худро нависед…" onkeydown="if(event.key==='Enter')ask()"><button class="btn sm" onclick="ask()">➤</button></div>`;
+}
+async function ask() {
+  const el = document.getElementById('ci'), t = (el.value || '').trim(); if (!t || chatBusy) return; if (!AI) return settings();
+  S.chat.push({ r: 'u', t }); chatBusy = true; render();
+  const sys = `Ту устоди дӯстона барои омодагӣ ба имтиҳонҳои дохилшавии Маркази миллии тестии Тоҷикистон ҳастӣ. Ба забони тоҷикӣ (кириллӣ), кӯтоҳ ва фаҳмо ҷавоб деҳ. Довталаб дар кластери ${S.cl} (${CLUSTERS[S.cl].n}) аст. Қисми А: 4 фан, ҳадди аксар 500 балл, забони тоҷикӣ 75 балл. Санаҳо, холҳои гузариш ва нархҳоро наофар — агар надонӣ, гӯй дар ntc.tj санҷад.`;
+  const msgs = S.chat.slice(-8).map(m => ({ role: m.r === 'u' ? 'user' : 'assistant', content: m.t })); msgs[0] = { role: 'user', content: sys + '\n\n' + msgs[0].content };
+  try { const o = await AI(msgs); S.chat.push({ r: 'a', t: (o.text || '').trim() || '…' }); } catch (e) { S.chat.push({ r: 'a', t: 'Бубахшед, ҳоло ҷавоб дода натавонистам. Баъдтар боз пурсед.' }); }
+  chatBusy = false; save(); render(); scrollTo(0, document.body.scrollHeight);
+}
+
+/* ---------- Танзимот ---------- */
+function settings() {
+  const bg = document.createElement('div'); bg.className = 'sheet-bg'; bg.onclick = e => { if (e.target === bg) bg.remove(); };
+  bg.innerHTML = `<div class="sheet"><h2>⚙️ Сервер (ЗС ва шарҳҳо)</h2><p class="small muted">${AIKIND === 'claude' ? 'ЗС-и Claude истифода мешавад. ' : ''}Як сервери Cloudflare барои ЗС ва шарҳҳои донишгоҳҳо. Сервери Дарзӣ AI мувофиқ аст.</p>
+   <label class="f">Суроғаи сервер</label><input type="text" id="su" value="${esc(S.srv || '')}" placeholder="https://….workers.dev">
+   <div id="sd" class="small" style="margin-top:8px"></div>
+   <button class="btn" style="margin-top:10px" onclick="saveSrv()">Нигоҳ доштан ва санҷидан</button>
+   <p class="small muted" style="margin-top:12px">Бе сервер ҳам машқ, санҷиши пурра, ҳисобкунак ва нақшаи қабул кор мекунанд.</p></div>`;
+  document.body.appendChild(bg);
+}
+async function saveSrv() {
+  let u = document.getElementById('su').value.trim().replace(/\/+$/, '').replace(/\/ai$/, ''); if (u && !/^https?:\/\//.test(u)) u = 'https://' + u;
+  S.srv = u; save(); useRemote(); const d = document.getElementById('sd'); if (!u) { document.querySelector('.sheet-bg').remove(); render(); return; }
+  d.textContent = '⏳ Санҷиш…'; let ai = false, rv = false;
+  try { await remoteAI(u)('Танҳо калимаи «тайёр»-ро нависед.'); ai = true; } catch (e) { }
+  try { await srv('/reviews/summary'); rv = true; } catch (e) { }
+  d.innerHTML = `${ai ? '✅' : '❌'} ЗС · ${rv ? '✅' : '❌'} Шарҳҳо${!rv ? '<br>Барои шарҳҳо дар Cloudflare ба worker пайванди D1 бо номи DB илова кунед ва worker.js-и навро гузоред.' : ''}`;
+  await loadRevSum(); render();
+}
+
+(async () => { await new Promise(r => setTimeout(r, 0)); try { if (window.claude && claude.use) { const s = await claude.use('sample'); if (s) { AI = s; AIKIND = 'claude'; } } } catch (e) { }
+  useRemote(); localSum(); render(); await loadRevSum(); render(); })();
+render();
+if ('serviceWorker' in navigator && location.protocol === 'https:' && !window.claude) navigator.serviceWorker.register('sw.js').catch(() => { });
+</script>
+</body>
+</html>
